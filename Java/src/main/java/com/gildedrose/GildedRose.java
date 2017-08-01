@@ -1,6 +1,13 @@
 package com.gildedrose;
 
+import java.util.List;
+
+import static java.util.Collections.singletonList;
+
 class GildedRose {
+
+    private static final int MAXIMUM_ITEM_QUALITY = 50;
+    private static final List<String> LEGENDARY_ITEM_NAMES = singletonList("Sulfuras, Hand of Ragnaros");
 
     Item[] items;
 
@@ -13,7 +20,7 @@ class GildedRose {
             if (!item.name.equals("Aged Brie")
                     && !item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
                 if (item.quality > 0) {
-                    if (!item.name.equals("Sulfuras, Hand of Ragnaros")) {
+                    if (!itemIsLegendary(item)) {
                         decreaseQuality(item);
                     }
                 }
@@ -43,7 +50,7 @@ class GildedRose {
                 if (!item.name.equals("Aged Brie")) {
                     if (!item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
                         if (item.quality > 0) {
-                            if (!item.name.equals("Sulfuras, Hand of Ragnaros")) {
+                            if (!itemIsLegendary(item)) {
                                 decreaseQuality(item);
                             }
                         }
@@ -59,14 +66,19 @@ class GildedRose {
         }
     }
 
+    private boolean itemIsLegendary(Item item) {
+        return LEGENDARY_ITEM_NAMES.stream()
+                .anyMatch(legendary -> item.name.equals(legendary));
+    }
+
     private void decreaseItemsSellInCounter(Item item) {
-        if (!item.name.equals("Sulfuras, Hand of Ragnaros")) {
+        if (!itemIsLegendary(item)) {
             item.sellIn = item.sellIn - 1;
         }
     }
 
     private boolean qualityOfItemIsBelowMax(Item item) {
-        return item.quality < 50;
+        return item.quality < MAXIMUM_ITEM_QUALITY;
     }
 
     private void increaseQuality(Item item) {
