@@ -9,7 +9,7 @@ class GildedRose {
     private static final int MAXIMUM_ITEM_QUALITY = 50;
     private static final List<String> LEGENDARY_ITEM_NAMES = singletonList("Sulfuras, Hand of Ragnaros");
     private static final String AGED_BRIE = "Aged Brie";
-    private static final String BACKSTAGE_PAS = "Backstage passes to a TAFKAL80ETC concert";
+    private static final String BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert";
 
     Item[] items;
 
@@ -19,28 +19,12 @@ class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
-            if (!item.name.equals(AGED_BRIE) && !item.name.equals(BACKSTAGE_PAS)) {
+            if (item.name.equals(AGED_BRIE) || item.name.equals(BACKSTAGE_PASS)) {
+                increaseQualityOfSpecialItems(item);
+            } else {
                 if (itemHasQualityRemaining(item)) {
                     if (!itemIsLegendary(item)) {
                         decreaseQuality(item);
-                    }
-                }
-            } else {
-                if (qualityOfItemIsBelowMax(item)) {
-                    increaseQuality(item);
-
-                    if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (item.sellIn < 11) {
-                            if (qualityOfItemIsBelowMax(item)) {
-                                increaseQuality(item);
-                            }
-                        }
-
-                        if (item.sellIn < 6) {
-                            if (qualityOfItemIsBelowMax(item)) {
-                                increaseQuality(item);
-                            }
-                        }
                     }
                 }
             }
@@ -49,7 +33,7 @@ class GildedRose {
 
             if (itemIsPassedSellIn(item)) {
                 if (!item.name.equals("Aged Brie")) {
-                    if (!item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+                    if (!item.name.equals(BACKSTAGE_PASS)) {
                         if (itemHasQualityRemaining(item)) {
                             if (!itemIsLegendary(item)) {
                                 decreaseQuality(item);
@@ -59,6 +43,26 @@ class GildedRose {
                         item.quality = 0;
                     }
                 } else {
+                    if (qualityOfItemIsBelowMax(item)) {
+                        increaseQuality(item);
+                    }
+                }
+            }
+        }
+    }
+
+    private void increaseQualityOfSpecialItems(Item item) {
+        if (qualityOfItemIsBelowMax(item)) {
+            increaseQuality(item);
+
+            if (item.name.equals(BACKSTAGE_PASS)) {
+                if (item.sellIn < 11) {
+                    if (qualityOfItemIsBelowMax(item)) {
+                        increaseQuality(item);
+                    }
+                }
+
+                if (item.sellIn < 6) {
                     if (qualityOfItemIsBelowMax(item)) {
                         increaseQuality(item);
                     }
