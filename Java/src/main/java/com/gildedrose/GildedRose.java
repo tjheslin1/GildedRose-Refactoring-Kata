@@ -10,6 +10,7 @@ class GildedRose {
     private static final List<String> LEGENDARY_ITEM_NAMES = singletonList("Sulfuras, Hand of Ragnaros");
     private static final String BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert";
     private static final String AGED_BRIE = "Aged Brie";
+    public static final int STANDARD_QUALITY_INCREASE = 1;
 
     Item[] items;
 
@@ -31,7 +32,7 @@ class GildedRose {
 
             if (itemIsPassedSellIn(item)) {
                 if (item.name.equals(AGED_BRIE) && qualityOfItemIsBelowMax(item)) {
-                    increaseQuality(item);
+                    increaseQuality(item, STANDARD_QUALITY_INCREASE);
                 } else {
                     if (item.name.equals(BACKSTAGE_PASS)) {
                         item.quality = 0;
@@ -47,20 +48,19 @@ class GildedRose {
 
     private void increaseQualityOfSpecialItems(Item item) {
         if (qualityOfItemIsBelowMax(item)) {
-            increaseQuality(item);
-
             if (item.name.equals(BACKSTAGE_PASS)) {
-                if (item.sellIn < 11) {
-                    if (qualityOfItemIsBelowMax(item)) {
-                        increaseQuality(item);
-                    }
-                }
-
                 if (item.sellIn < 6) {
                     if (qualityOfItemIsBelowMax(item)) {
-                        increaseQuality(item);
+                        increaseQuality(item, 3);
+                    }
+                } else if (item.sellIn < 11) {
+                    if (qualityOfItemIsBelowMax(item)) {
+                        increaseQuality(item, 2);
                     }
                 }
+
+            } else {
+                increaseQuality(item, STANDARD_QUALITY_INCREASE);
             }
         }
     }
@@ -88,8 +88,8 @@ class GildedRose {
         return item.quality < MAXIMUM_ITEM_QUALITY;
     }
 
-    private void increaseQuality(Item item) {
-        item.quality = item.quality + 1;
+    private void increaseQuality(Item item, int increase) {
+        item.quality = item.quality + increase;
     }
 
     private void decreaseQuality(Item item) {
