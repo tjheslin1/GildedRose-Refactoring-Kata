@@ -1,6 +1,7 @@
 package com.gildedrose;
 
 class GildedRose {
+
     Item[] items;
 
     public GildedRose(Item[] items) {
@@ -17,18 +18,18 @@ class GildedRose {
                     }
                 }
             } else {
-                if (item.quality < 50) {
+                if (qualityOfItemIsBelowMax(item)) {
                     increaseQuality(item);
 
                     if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
                         if (item.sellIn < 11) {
-                            if (item.quality < 50) {
+                            if (qualityOfItemIsBelowMax(item)) {
                                 increaseQuality(item);
                             }
                         }
 
                         if (item.sellIn < 6) {
-                            if (item.quality < 50) {
+                            if (qualityOfItemIsBelowMax(item)) {
                                 increaseQuality(item);
                             }
                         }
@@ -36,9 +37,7 @@ class GildedRose {
                 }
             }
 
-            if (!item.name.equals("Sulfuras, Hand of Ragnaros")) {
-                item.sellIn = item.sellIn - 1;
-            }
+            decreaseItemsSellInCounter(item);
 
             if (item.sellIn < 0) {
                 if (!item.name.equals("Aged Brie")) {
@@ -52,12 +51,22 @@ class GildedRose {
                         item.quality = 0;
                     }
                 } else {
-                    if (item.quality < 50) {
+                    if (qualityOfItemIsBelowMax(item)) {
                         increaseQuality(item);
                     }
                 }
             }
         }
+    }
+
+    private void decreaseItemsSellInCounter(Item item) {
+        if (!item.name.equals("Sulfuras, Hand of Ragnaros")) {
+            item.sellIn = item.sellIn - 1;
+        }
+    }
+
+    private boolean qualityOfItemIsBelowMax(Item item) {
+        return item.quality < 50;
     }
 
     private void increaseQuality(Item item) {
