@@ -138,7 +138,6 @@ public class GildedRoseTest {
         assertThat(items[0].quality).isEqualTo(80);
     }
 
-    @Ignore // TODO implement conjured items functionality
     @Test
     public void itemsWhosNameBeginWithConjuredDegradeTwiceAsFast() throws Exception {
         Item[] items = new Item[]{new Item("Conjured Mana Cake", 3, 6)};

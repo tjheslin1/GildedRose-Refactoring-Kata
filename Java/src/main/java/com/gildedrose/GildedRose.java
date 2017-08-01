@@ -11,6 +11,7 @@ class GildedRose {
     private static final String BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert";
     private static final String AGED_BRIE = "Aged Brie";
     private static final int STANDARD_QUALITY_INCREASE = 1;
+    private static final String CONJURED_ITEMS_PREFIXED = "Conjured";
 
     Item[] items;
 
@@ -92,6 +93,10 @@ class GildedRose {
     }
 
     private void decreaseQuality(Item item) {
-        item.quality = item.quality - 1;
+        if (item.name.startsWith(CONJURED_ITEMS_PREFIXED)) {
+            item.quality = item.quality - 2;
+        } else {
+            item.quality = item.quality - 1;
+        }
     }
 }
