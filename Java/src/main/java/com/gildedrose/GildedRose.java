@@ -10,7 +10,7 @@ class GildedRose {
     private static final List<String> LEGENDARY_ITEM_NAMES = singletonList("Sulfuras, Hand of Ragnaros");
     private static final String BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert";
     private static final String AGED_BRIE = "Aged Brie";
-    public static final int STANDARD_QUALITY_INCREASE = 1;
+    private static final int STANDARD_QUALITY_INCREASE = 1;
 
     Item[] items;
 
@@ -21,7 +21,7 @@ class GildedRose {
     public void updateQuality() {
         for (Item item : items) {
             if (item.name.equals(AGED_BRIE) || item.name.equals(BACKSTAGE_PASS)) {
-                increaseQualityOfSpecialItems(item);
+                increaseQualityOfSpecialItem(item);
             } else {
                 if (itemHasQualityRemaining(item) && !itemIsLegendary(item)) {
                     decreaseQuality(item);
@@ -46,7 +46,7 @@ class GildedRose {
         }
     }
 
-    private void increaseQualityOfSpecialItems(Item item) {
+    private void increaseQualityOfSpecialItem(Item item) {
         if (qualityOfItemIsBelowMax(item)) {
             if (item.name.equals(BACKSTAGE_PASS)) {
                 if (item.sellIn < 6) {
@@ -58,7 +58,6 @@ class GildedRose {
                         increaseQuality(item, 2);
                     }
                 }
-
             } else {
                 increaseQuality(item, STANDARD_QUALITY_INCREASE);
             }
